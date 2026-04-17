@@ -195,12 +195,10 @@ return 0;
 }
     Tree tree = {0};
 int tree_from_index(ObjectID *id_out) {
-    // TODO: Implement recursive tree building
-    // (See Lab Appendix for logical steps)
     Index index;
-if (index_load(&index) != 0) {
-    return -1;
-}
-    (void)id_out;
-    return -1;
+
+    if (index_load(&index) != 0)
+        return -1;
+
+    return build_tree(index.entries, index.count, id_out);
 }
