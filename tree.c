@@ -145,6 +145,39 @@ static int build_tree(IndexEntry *entries, int count, ObjectID *out_id) {
         strcpy(e->name, path);
         e->hash = entries[i].id;
     }
+     else {
+        // ✅ STEP 4 GOES HERE (DIRECTORY CASE)
+
+        char dirname[256];
+        strncpy(dirname, path, slash - path);
+        dirname[slash - path] = '\0';
+
+        // Collect sub entries
+        IndexEntry sub_entries[128];
+        int sub_count = 0;
+
+        for (int j = 0; j < count; j++) {
+            if (strncmp(entries[j].path, dirname, strlen(dirname)) == 0 &&
+                entries[j].path[strlen(dirname)] == '/') {
+
+                sub_entries[sub_count] = entries[j];
+
+                // IMPORTANT: trim path
+                sub_entries[sub_count].path += strlen(dirname) + 1;
+
+                sub_count++;
+            }
+        }
+
+        ObjectID sub_id;
+        build_tree(sub_entries, sub_count, &sub_id);
+
+        TreeEntry *e = &tree.entries[tree.count++];
+
+        e->mode = MODE_DIR;
+        strcpy(e->name, dirname);
+        e->hash = sub_id;
+    }
 }
     Tree tree = {0};
 int tree_from_index(ObjectID *id_out) {
