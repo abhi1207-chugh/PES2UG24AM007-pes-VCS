@@ -232,7 +232,14 @@ int commit_create(const char *message, ObjectID *commit_id_out) {
     }
 
     // 7. Write commit object
-   
+   ObjectID commit_id;
+    if (object_write(OBJ_COMMIT, data, len, &commit_id) != 0) {
+        free(data);
+        fprintf(stderr, "error: failed to write commit\n");
+        return -1;
+    }
+
+    free(data);
 
     free(data);
 
