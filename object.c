@@ -9,6 +9,7 @@
 // TODO functions:     object_write, object_read
 // Phase 1 implementation started
 //Phase 1: implemented object header and data formatting
+//Phase 1: added SHA-256 hashing and object identification
 
 #include "pes.h"
 #include <stdio.h>
