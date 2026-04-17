@@ -11,6 +11,7 @@
 //Phase 1: implemented object header and data formatting
 //Phase 1: added SHA-256 hashing and object identification
 //Phase 1: implemented directory sharding and atomic write
+//implemented object_read with integrity verification"
 
 #include "pes.h"
 #include <stdio.h>
