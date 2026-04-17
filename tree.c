@@ -178,6 +178,20 @@ static int build_tree(IndexEntry *entries, int count, ObjectID *out_id) {
         strcpy(e->name, dirname);
         e->hash = sub_id;
     }
+    void *data;
+size_t len;
+
+if (tree_serialize(&tree, &data, &len) != 0)
+    return -1;
+
+if (object_write(OBJ_TREE, data, len, out_id) != 0) {
+    free(data);
+    return -1;
+}
+
+free(data);
+return 0;
+}
 }
     Tree tree = {0};
 int tree_from_index(ObjectID *id_out) {
