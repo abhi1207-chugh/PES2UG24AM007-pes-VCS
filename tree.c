@@ -132,6 +132,20 @@ int tree_serialize(const Tree *tree, void **data_out, size_t *len_out) {
 //
 // Returns 0 on success, -1 on error.
 static int build_tree(IndexEntry *entries, int count, ObjectID *out_id) {
+      for (int i = 0; i < count; i++) {
+    const char *path = entries[i].path;
+
+    char *slash = strchr(path, '/');
+
+    if (!slash) {
+        // File in current directory
+        TreeEntry *e = &tree.entries[tree.count++];
+
+        e->mode = entries[i].mode;
+        strcpy(e->name, path);
+        e->hash = entries[i].id;
+    }
+}
     Tree tree = {0};
 int tree_from_index(ObjectID *id_out) {
     // TODO: Implement recursive tree building
