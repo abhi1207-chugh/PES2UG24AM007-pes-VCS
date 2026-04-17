@@ -8,6 +8,7 @@
 // PROVIDED functions: compute_hash, object_path, object_exists, hash_to_hex, hex_to_hash
 // TODO functions:     object_write, object_read
 // Phase 1 implementation started
+//Phase 1: implemented object header and data formatting
 
 #include "pes.h"
 #include <stdio.h>
