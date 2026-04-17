@@ -223,3 +223,20 @@ int index_add(Index *index, const char *path) {
     }
 
     free(data);
+        struct stat st;
+    stat(path, &st);
+
+    IndexEntry *e = index_find(index, path);
+
+    if (!e) {
+        e = &index->entries[index->count++];
+        strcpy(e->path, path);
+    }
+
+    e->mode = st.st_mode & 0777 ? 100755 : 100644;
+    e->hash = id;
+    e->mtime_sec = st.st_mtime;
+    e->size = st.st_size;
+
+    return index_save(index);
+}
